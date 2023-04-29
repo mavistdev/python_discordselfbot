@@ -25,7 +25,7 @@ bannedGuildIDs = [612650423387553814, 815244443196194816, 919184095723020338, 61
 tracemalloc.start()
 
 translator = Translator()
-token = 'NDcxOTQ5ODgzODA5NzI2NDY2.Gha2gh.aFeHTvAOuB53Lt1BfztVLzv3tdw6TI1KpN5_Cw'
+token = ''
 prefix = 'self.'
 allmembers = []
 allmembers2 = []
