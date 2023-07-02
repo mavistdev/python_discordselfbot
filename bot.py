@@ -13,12 +13,6 @@ import random as r
 import datetime
 import aiofiles
 from googletrans import Translator
-# from SimpleQIWI import *
-
-# token = "ВАШ ТОКЕН"         # https://qiwi.com/api
-# phone = "ВАШ ТЕЛЕФОН"
-
-# api = QApi(token=token, phone=phone)
 
 bannedGuildIDs = [612650423387553814, 815244443196194816, 919184095723020338, 613425648685547541]
 
@@ -165,26 +159,26 @@ async def on_message_delete(message):
     else:
         pass
 
-# @bot.event
-# async def on_message(message):
-#     if await getidid(message) not in bannedGuildIDs:
-#         d = date.strftime("%d")
-#         m = date.strftime("%m")
-#         t = date.strftime("%X")
-#         # try:
-#         #     print(f'[DELETE] [{d}-{m}--{t}] {message.author}, Айди {message.author.id} удалил/удалили на {message.guild.name}, {message.guild.id} // {message.content}')
-#         # except:
-#         #     print(f'[DM DELETE] [{d}-{m}--{t}] {message.author}, Айди {message.author.id} удалил на {message.channel.recipient.name}, {message.channel.recipient.id} // {message.content}')
-#         mt = await gettype(message)
-#         if mt == 'server':
-#             print(f'[MSG] [{d}-{m}--{t}] {message.author} отправил на {message.guild.name}, {message.guild.id} // {message.content}')
-#         if mt == 'dm':
-#             print(f'[DM MSG] [{d}-{m}--{t}] {message.author} отправил в {message.channel.recipient.name} // {message.content}')
-#         if mt == 'group':
-#             print(f'[SG MSG] [{d}-{m}--{t}] {message.author} отправил на {message.channel.name} // {message.content}')
+@bot.event
+async def on_message(message):
+    if await getidid(message) not in bannedGuildIDs:
+        d = date.strftime("%d")
+        m = date.strftime("%m")
+        t = date.strftime("%X")
+        # try:
+        #     print(f'[DELETE] [{d}-{m}--{t}] {message.author}, Айди {message.author.id} удалил/удалили на {message.guild.name}, {message.guild.id} // {message.content}')
+        # except:
+        #     print(f'[DM DELETE] [{d}-{m}--{t}] {message.author}, Айди {message.author.id} удалил на {message.channel.recipient.name}, {message.channel.recipient.id} // {message.content}')
+        mt = await gettype(message)
+        if mt == 'server':
+            print(f'[MSG] [{d}-{m}--{t}] {message.author} отправил на {message.guild.name}, {message.guild.id} // {message.content}')
+        if mt == 'dm':
+            print(f'[DM MSG] [{d}-{m}--{t}] {message.author} отправил в {message.channel.recipient.name} // {message.content}')
+        if mt == 'group':
+            print(f'[SG MSG] [{d}-{m}--{t}] {message.author} отправил на {message.channel.name} // {message.content}')
 
-#     else:
-#         pass
+    else:
+        pass
 
 # @client.event
 # async def on_guild_channel_delete(channel):
@@ -263,7 +257,6 @@ async def on_guild_join(guild):
 
 @bot.command()
 async def randint(ctx, *, nd2):
-    await ctx.message.delete()
     await ctx.send(f'Число от 0 до {nd2} - {r.randint(0, int(nd2))}')
 
 @bot.command()
@@ -302,7 +295,6 @@ async def mclear(ctx, amount = 1):
 
 @bot.command()
 async def mkick(ctx, member: discord.Member, *, reason = None ):
-    await ctx.message.delete()
     await member.kick(reason=reason)
     await ctx.send(f'Успешно кикнут {member} по причине {reason}')
 
@@ -328,7 +320,8 @@ async def password(ctx, arg):
         password =''
         for i in range(int(arg)):
             password += r.choice(chars)
-        await ctx.send(f'Сгенерированный пароль из {arg} символов - {password}')
+        message = await ctx.send(f'Сгенерированный пароль из {arg} символов - {password}')
+        await ctx.add_reaction('✔️')
 
 # @bot.command()
 # async def translate(ctx, lang, *, text):
