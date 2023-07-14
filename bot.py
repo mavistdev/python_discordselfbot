@@ -12,9 +12,8 @@ import requests
 import random as r
 import datetime
 import aiofiles
-from googletrans import Translator
 
-bannedGuildIDs = [612650423387553814, 815244443196194816, 919184095723020338, 613425648685547541]
+bannedGuildIDs = [] # Вставь сюда айди серверов, которые не будет обрабатывать логер
 
 tracemalloc.start()
 
@@ -99,53 +98,20 @@ async def on_ready():
     members = 0
     for guild in bot.guilds:
         for member in guild.members:
-            # print(member)
             members += 1
-    # print(len(allmembers))
-    # print(allmembers)
-    # print(len(allmembers2))
-    # print(len(allmembers3))
-    # print(len(allmembers4))
-    # for user in range(0, int(members)):
-    #     normlen = len(allmembers[user])
-    #     if member in allmembers or allmembers2 or allmembers3 or allmembers4:
-    #         pass
-    #     else:
-    #         const = f'{member.name}#{member.discriminator}'
-    #         if normlen >= 1900:
-    #             if normlen >= 1900:
-    #                 if normlen >= 1900:
-    #                     if normlen >= 1900:
-    #                         print('пиздец')
-    #                     else:
-    #                         allmembers4.append(const)
-    #                 else:
-    #                     allmembers3.append(const)
-    #             else:
-    #                 allmembers2.append(const)
-    #         else:
-    #             allmembers.append(const)
 
-    send = bot.get_channel(1098268021732159548)    
-    await send.send(f'''**Mavist | Self Bot** ***в сети***.
-Пользователей на серверах сейчас - **{members}**
-Made by ||**mav.**|| with *python* and love''')
+#     send = bot.get_channel(1098268021732159548)    
+#     await send.send(f'''**Mavist | Self Bot** ***в сети***.
+# Пользователей на серверах сейчас - **{members}**
+# Made by ||**mav.**|| with *python* and love''')
 
-    send = bot.get_channel(1098268898442367006)    
-    await send.send(f'{members}')
-    while True:
-        await bot.change_presence(activity=discord.Activity(
-            type=discord.ActivityType.listening,
-            name=" to my thoughts."))
+#     send = bot.get_channel(1098268898442367006)    
+#     await send.send(f'{members}')
 
 
 @bot.event
 async def on_message_delete(message):
     if await getidid(message) not in bannedGuildIDs:
-        # try:
-        #     print(f'[DELETE] [{d}-{m}--{t}] {message.author}, Айди {message.author.id} удалил/удалили на {message.guild.name}, {message.guild.id} // {message.content}')
-        # except:
-        #     print(f'[DM DELETE] [{d}-{m}--{t}] {message.author}, Айди {message.author.id} удалил на {message.channel.recipient.name}, {message.channel.recipient.id} // {message.content}')
         mt = await gettype(message)
         if mt == 'server':
             print(f'[DELETE] [{gettime()}] {message.author} удалил/удалили на {message.guild.name}, {message.guild.id} // {message.content}')
@@ -179,56 +145,6 @@ async def on_message(message):
 
     else:
         pass
-
-# @client.event
-# async def on_guild_channel_delete(channel):
-#   c = client.get_channel(1016375426911842335)
-#   await c.send(f'''удален канал {channel.name}, {channel.id}''', tts=False)
-
-# @client.event
-# async def on_guild_channel_create(channel):
-#   c = client.get_channel(1016375368216744036)
-#   await c.send(f'''создан канал {channel.name}, {channel.id}''', tts=False)
-
-# @client.event
-# async def on_guild_channel_update(before, after):
-#   c = client.get_channel(1016376284642803813)
-#   await c.send(f'''обновлен канал 
-#     До - {before} 
-#     После - {after}''', tts=False)
-
-# @client.event
-# async def on_guild_channel_pins_update(channel, last_pin):
-#   link = await channel.create_invite(max_age = 0, max_uses = 0)
-#   c = client.get_channel(1027186793411514458)
-#   await c.send(f'''Печатает в
-#     {link}''', tts=False)
-#   c = client.get_channel(1016377546851504229)
-#   await c.send(f'''обновлен канал 
-#     Канал - {channel} 
-#     Последний пин - {last_pin}''', tts=False)
-
-# @client.event
-# async def on_private_channel_update(before, after):
-#   c = client.get_channel(1016377611066294332)
-#   await c.send(f'''обновлен приватный канал 
-#     До - {before} 
-#     После - {after}''', tts=False)
-
-# @client.event
-# async def on_private_channel_pins_update(before, after):
-#   c = client.get_channel(1016377697674481696)
-#   await c.send(f'''обновлен Приватный канал 
-#     Канал - {channel} 
-#     Последний пин - {last_pin}''', tts=False)
-
-# @bot.event
-# async def on_typing(channel, user, when):
-#     try:
-#         link = await channel.create_invite(max_age = 0, max_uses = 0)
-#         print(f'Печатает Канал - {channel} Юзер - {user} Время - {when} ---- {link}')
-#     except:
-#         print(f'Печатает Канал - {channel} Юзер - {user} Время - {when}')
 
 @bot.event
 async def on_invite_create(invite):
@@ -302,10 +218,6 @@ async def mkick(ctx, member: discord.Member, *, reason = None ):
 async def mrename(ctx,*, arg):
     await ctx.message.delete()
     await ctx.guild.edit(name=arg)
-
-# @bot.command()
-# async def balance(ctx):
-#     await ctx.send(api.balance)
     
 @bot.command()
 async def remind(ctx, num, *, text):
@@ -322,20 +234,5 @@ async def password(ctx, arg):
             password += r.choice(chars)
         message = await ctx.send(f'Сгенерированный пароль из {arg} символов - {password}')
         await ctx.add_reaction('✔️')
-
-# @bot.command()
-# async def translate(ctx, lang, *, text):
-    # if lang.lower() == 'ru':
-    #     tr = translator.translate(text, src='en', dest='ru')
-    #     ctx.send(tr.text)
-    # elif lang.lower() == 'en':
-    #     tr = translator.translate(text, src='ru', dest='en')
-    #     ctx.send(tr.text)
-    # translator = Translator()
-    # result = translator.translate(text, src='fi', dest='fr')
-
-    # print(result.src)
-    # print(result.dest)
-    # print(result.text)
 
 bot.run(token)
